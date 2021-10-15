@@ -9,96 +9,105 @@ using System.Threading;
 
 namespace Selenium_Nunit_AT
 {
+    [TestFixture]
+    [Parallelizable(ParallelScope.All)]
     public class Tests
     {
-        IWebDriver driver;
+        
 
         [SetUp]
         public void Setup()
         {
+        }
+
+        
+        [Test]
+        [Category("Model Airplanes")]
+          public void Model_Airplanes()
+          {
+            IWebDriver driver;
+            //create Chrome Driver
             driver = new ChromeDriver();
-        }
+            driver.Navigate().GoToUrl("http://tailspintoys.azurewebsites.net/");
 
-        
-        [Test]
-        [Category("Search Test")]
-          public void Search_text()
-          {              
-              driver.Navigate().GoToUrl("http://www.google.com");
-              string search_text = System.IO.File.ReadAllText("../../../TextFile1.txt");
-              driver.FindElement(By.Name("q")).SendKeys(search_text + Keys.Enter);
-              Assert.That(driver.Title, Is.EqualTo(search_text + " - Buscar con Google"));
-        }
-   
-        [Test]
-        [Category("Media Test")]
-        [Category("Regression Test")]
-        public void Linkedin()
-        {
-            driver.Navigate().GoToUrl("http://www.agilethought.com");
-            IWebElement linkedin_btn = driver.FindElement(By.CssSelector("a[href='http://www.linkedin.com/company/agilethought']"));
-            IJavaScriptExecutor jse = (IJavaScriptExecutor)driver;
-            jse.ExecuteScript("arguments[0].click()", linkedin_btn);
-            string title = driver.SwitchTo().Window(driver.WindowHandles[1]).Title;
-            Assert.That(title, Does.Contain("linkedin").IgnoreCase);
-        }
+            //Select Item
+            driver.FindElement(By.CssSelector("a[href='/?slug=model'")).Click();
+            driver.FindElement(By.CssSelector("a[href='/home/show?sku=modfcf'")).Click();
 
-        [Test]
-        [Category("Media Test")]
-        [Category("Regression Test")]
-        public void Facebook()
-        {
-            driver.Navigate().GoToUrl("http://www.agilethought.com");
-            IWebElement facebook_btn = driver.FindElement(By.CssSelector("a[href='https://www.facebook.com/AgileThought']"));
-            IJavaScriptExecutor jse = (IJavaScriptExecutor)driver;
-            jse.ExecuteScript("arguments[0].click()", facebook_btn);
-            string title = driver.SwitchTo().Window(driver.WindowHandles[1]).Title;
-            Assert.That(title, Does.Contain("facebook").IgnoreCase);
+            //Fill Form
+            driver.FindElement(By.ClassName("add-cart")).Click();
+            driver.FindElement(By.XPath("//input[@value='Checkout']")).Click();
+            driver.FindElement(By.Id("FirstName")).SendKeys("Gabriel");
+            driver.FindElement(By.Id("LastName")).SendKeys("Gutierrez");
+            driver.FindElement(By.Id("Email")).SendKeys("gabriel@emial.com");
+            driver.FindElement(By.Id("Street1")).SendKeys("Street 123");
+            driver.FindElement(By.Id("Street2")).SendKeys("Street 423");
+            driver.FindElement(By.Id("City")).SendKeys("Ocotlan");
+            SelectElement country_ddl = new SelectElement(driver.FindElement(By.Id("countrySelect")));
+            country_ddl.SelectByValue("US");
+            SelectElement state_ddl = new SelectElement(driver.FindElement(By.Id("stateSelect")));
+            state_ddl.SelectByValue("WA");
+            driver.FindElement(By.Id("Zip")).SendKeys("47829");
+
+            //Review & PLace Order
+            driver.FindElement(By.XPath("//input[@value='Review Order']")).Click();
+            driver.FindElement(By.XPath("//input[@value='Place Order']")).Click();
+
+            //Check Final Order Receipt
+            string receipt = driver.Url;
+            receipt = receipt.Replace("http://tailspintoys.azurewebsites.net/Order/Receipt/", ""); driver.Quit();
+            Assert.That(receipt, Is.Not.Empty);
+
+            driver.Quit();
         }
 
         [Test]
-        [Category("Media Test")]
-        [Category("Regression Test")]
-        public void Twitter()
+        [Category("Paper Airplanes")]
+        public void Paper_Airplanes()
         {
-            driver.Navigate().GoToUrl("http://www.agilethought.com");
-            IWebElement twitter_btn = driver.FindElement(By.CssSelector("a[href='https://twitter.com/AgileThought']"));
-            IJavaScriptExecutor jse = (IJavaScriptExecutor)driver;
-            jse.ExecuteScript("arguments[0].click()", twitter_btn);
-            string title = driver.SwitchTo().Window(driver.WindowHandles[1]).Title;
-            Assert.That(title, Does.Contain("twitter").IgnoreCase);
+            IWebDriver driver;
+            //create Chrome Driver
+            driver = new ChromeDriver();
+            driver.Navigate().GoToUrl("http://tailspintoys.azurewebsites.net/");
+
+            //Select Item
+            driver.FindElement(By.CssSelector("a[href='/?slug=paper'")).Click();
+            driver.FindElement(By.CssSelector("a[href='/home/show?sku=papcce'")).Click();
+
+            //Fill Form
+            driver.FindElement(By.ClassName("add-cart")).Click();
+            driver.FindElement(By.XPath("//input[@value='Checkout']")).Click();
+            driver.FindElement(By.Id("FirstName")).SendKeys("Gabriel");
+            driver.FindElement(By.Id("LastName")).SendKeys("Gutierrez");
+            driver.FindElement(By.Id("Email")).SendKeys("gabriel@emial.com");
+            driver.FindElement(By.Id("Street1")).SendKeys("Street 123");
+            driver.FindElement(By.Id("Street2")).SendKeys("Street 423");
+            driver.FindElement(By.Id("City")).SendKeys("Ocotlan");
+            SelectElement country_ddl = new SelectElement(driver.FindElement(By.Id("countrySelect")));
+            country_ddl.SelectByValue("US");
+            SelectElement state_ddl = new SelectElement(driver.FindElement(By.Id("stateSelect")));
+            state_ddl.SelectByValue("WA");
+            driver.FindElement(By.Id("Zip")).SendKeys("47829");
+
+            //Review & PLace Order
+            driver.FindElement(By.XPath("//input[@value='Review Order']")).Click();
+            driver.FindElement(By.XPath("//input[@value='Place Order']")).Click();
+
+            //Check Final Order Receipt
+            string receipt = driver.Url;
+            receipt = receipt.Replace("http://tailspintoys.azurewebsites.net/Order/Receipt/", ""); driver.Quit();
+            Assert.That(receipt, Is.Not.Empty);
+
+            driver.Quit();
         }
 
-        [Test]
-        [Category("Media Test")]
-        [Category("Regression Test")]
-        public void Instagram()
-        {
-            driver.Navigate().GoToUrl("http://www.agilethought.com");
-            IWebElement instagram_btn = driver.FindElement(By.CssSelector("a[href='https://www.instagram.com/agilethought/']"));
-            IJavaScriptExecutor jse = (IJavaScriptExecutor)driver;
-            jse.ExecuteScript("arguments[0].click()", instagram_btn);
-            string title = driver.SwitchTo().Window(driver.WindowHandles[1]).Title;
-            Assert.That(title, Does.Contain("instagram").IgnoreCase);
-        }
-        
 
-        [Test]
-        [Category("Search Test")]
-        [Category("Regression Test")]
-        public void Amazon()
-        {
-            driver.Navigate().GoToUrl("http://www.amazon.com");
-            string search_text = System.IO.File.ReadAllText("../../../Amazon.txt");
-            driver.FindElement(By.Id("twotabsearchtextbox")).SendKeys(search_text + Keys.Enter);
-            Assert.That(driver.Title, Is.EqualTo("Amazon.com : " + search_text));
-            
-        }
+
 
         [TearDown]
         public void closeBrowser()
         {
-            driver.Quit();
+            
         }
 
 
