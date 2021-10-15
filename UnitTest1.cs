@@ -55,7 +55,7 @@ namespace Selenium_Nunit_AT
 
             //Check Final Order Receipt
             string receipt = driver.Url;
-            receipt = receipt.Replace("http://tailspintoys.azurewebsites.net/Order/Receipt/", ""); driver.Quit();
+            receipt = receipt.Replace("http://tailspintoys.azurewebsites.net/Order/Receipt/", ""); 
             Assert.That(receipt, Is.Not.Empty);
 
             driver.Quit();
@@ -95,7 +95,7 @@ namespace Selenium_Nunit_AT
 
             //Check Final Order Receipt
             string receipt = driver.Url;
-            receipt = receipt.Replace("http://tailspintoys.azurewebsites.net/Order/Receipt/", ""); driver.Quit();
+            receipt = receipt.Replace("http://tailspintoys.azurewebsites.net/Order/Receipt/", ""); 
             Assert.That(receipt, Is.Not.Empty);
 
             driver.Quit();
